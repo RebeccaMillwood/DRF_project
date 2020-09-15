@@ -35,3 +35,5 @@ class CustomUserDetail(APIView):
         return Response(serializer.data)
 
 # this view lets you look at one user
+
+# update user, delete user:
