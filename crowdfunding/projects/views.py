@@ -85,6 +85,39 @@ class PledgeList(APIView):
             status=status.HTTP_400_BAD_REQUEST
         )
 
-# delete a pledge, update a pledge
+class PledgeDetail(APIView):
+    
+    # permission_classes = [
+    #     permissions.IsAuthenticatedOrReadOnly,
+    #     IsSupporterOrReadOnly
+    # ]
+
+    def get_object(self, pk):
+        try:
+            pledges = Pledge.objects.get(pk=pk)
+            # self.check_object_permissions(self.request, project)
+            return pledges
+        except Pledges.DoesNotExist:
+            raise Http404
+
+    def get(self, request, pk):
+        pledges = self.get_object(pk)
+        serializer = PledgeDetailSerializer(pledges)
+        return Response(serializer.data)
+
+    # def put(self, request, pk):
+    #     project = self.get_object(pk)
+    #     data = request.data
+    #     serializer = ProjectDetailSerializer(
+    #         instance=project,
+    #         data=data,
+    #         partial=True
+    #     )
+    #     if serializer.is_valid():
+    #         serializer.save()
+    #         return Response(serializer.data)
+
+
 
 # pledge detail
+# delete a pledge, update a pledge
