@@ -5,6 +5,7 @@ from rest_framework.response import Response
 from rest_framework import status
 from .models import CustomUser
 from .serializers import CustomUserSerializer
+from .permissions import IsSelfOrReadOnly
 
 
 class CustomUserList(APIView):
@@ -23,9 +24,16 @@ class CustomUserList(APIView):
 # lists all users in database, and create a new user
 
 class CustomUserDetail(APIView):
+    permission_classes = [
+        permissions.IsAuthenticatedOrReadOnly,
+        IsSelfOrReadOnly
+    ]
+
     def get_object(self, pk):
         try:
-            return CustomUser.objects.get(pk=pk)
+            user=CustomUser.objects.get(pk=pk)
+            self.check_object_permissions(self.request, user)
+            return user
         except CustomUser.DoesNotExist:
             raise Http404
 
