@@ -126,5 +126,3 @@ class PledgeDetail(APIView):
         return Response(status=status.HTTP_204_NO_CONTENT)
 
 
-# pledge detail
-# delete a pledge, update a pledge
